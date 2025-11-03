@@ -1,4 +1,6 @@
 from __future__ import annotations
+# merge 엔진(격리 복사본) 사용
+from ..thirdparty.merge_core.ocr_engine import extract_text_from_pdf
 
 import os, io, zipfile, shutil,json
 from pathlib import Path
@@ -199,13 +201,32 @@ def run_ocr(file_path: Path, file_id: str, *, prep_mode: str | None = None) -> D
 
     data = file_path.read_bytes()
     filename = file_path.name
+    is_pdf = filename.lower().endswith(".pdf") or data[:4] == b"%PDF"
 
-    # 기존 파이프라인 유틸 활용
-    text, pages, meta, per_page = ocr_funnel_extract(
-        data,
-        filename=filename,
-        mode=(prep_mode or OCR_PREP_MODE or "quality"),
-    )
+    if is_pdf:
+        # === merge 코어 OCR 사용 ===
+        # returns: (text, meta_merge)  where meta_merge = {"perf":[...], "pages":int, "ocr_stats":{...}}
+        text, meta_merge = extract_text_from_pdf(str(file_path))
+        pages = int(meta_merge.get("pages") or 0)
+
+        # sumflow 메타 스키마에 맞춰 최소 필드만 매핑 (나머지는 None 허용)
+        lang = _best_langs(OCR_LANGS)
+        meta = {
+            "mode": "merge_core",     # 엔진 식별
+            "dpi": int(OCR_DPI),
+            "lang": lang,
+            "text_layer_pages": None, # merge 메타에 직접 없음
+            "coverage": None,         # merge 메타에 직접 없음
+        }
+        per_page = []  # merge 경로에선 페이지별 텍스트 분리는 제공하지 않음
+    else:
+        # === 기존 파이프라인 유지 ===
+        text, pages, meta, per_page = ocr_funnel_extract(
+            data,
+            filename=filename,
+            mode=(prep_mode or OCR_PREP_MODE or "quality"),
+        )
+
 
     # 페이지별 개별 저장
     for p in per_page:
@@ -213,15 +234,20 @@ def run_ocr(file_path: Path, file_id: str, *, prep_mode: str | None = None) -> D
         page_text = p.get("text", "") or ""
         _write_text(pages_dir / f"page_{idx:03d}.txt", page_text)
 
-    # 병합본 저장
+        # 병합본 저장
     # 읽기 편하도록 페이지 경계 구분선 넣어줌
-    merged_lines: List[str] = []
-    total = max(1, pages)
-    for p in per_page:
-        idx = int(p.get("index", 0))
-        merged_lines.append(f"\n==== [PAGE {idx+1}/{total}] ====\n")
-        merged_lines.append(p.get("text", "") or "")
-    merged_text = "\n".join(merged_lines).lstrip()
+    if per_page:  # 페이지별 텍스트가 있을 때(기존 경로)
+        merged_lines: List[str] = []
+        total = max(1, pages)
+        for p in per_page:
+            idx = int(p.get("index", 0))
+            merged_lines.append(f"\n==== [PAGE {idx+1}/{total}] ====\n")
+            merged_lines.append(p.get("text", "") or "")
+        merged_text = "\n".join(merged_lines).lstrip()
+    else:
+        # merge 경로: 페이지별 분리 정보가 없으므로 raw text를 그대로 쓴다
+        merged_text = (text or "").strip()
+
 
     _write_text(out_dir / "merged.txt", merged_text)
 
