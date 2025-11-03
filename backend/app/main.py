@@ -466,6 +466,9 @@ from app.routers.user_check_router import router as user_check_router
 from app.routers.email_verify_router import router as email_verify_router
 from app.routers.mypage_router import router as mypage_router
 from app.routers import comments
+from app.routers.upload import router as upload_router
+from app.routers.status import router as status_router
+from app.routers.export import router as export_router
 from app.routers.account_recovery_router import router as account_recovery_router
 
 app.include_router(captcha_router)
@@ -477,3 +480,6 @@ app.include_router(email_verify_router)
 app.include_router(mypage_router)
 app.include_router(comments.router)
 app.include_router(account_recovery_router)
+app.include_router(upload_router)
+app.include_router(status_router)
+app.include_router(export_router)
