@@ -23,7 +23,13 @@ async def tesseract(file: UploadFile = File(...)):
     with dest.open("wb") as w:
         shutil.copyfileobj(file.file, w)
 
-    o = pipeline_task.delay(str(dest), file.filename, file_id, 1)
+    o = pipeline_task.delay(
+       file_path=str(dest),
+       filename=file.filename,
+       batch_id=file_id,   # 단일 업로드는 batch_id 대신 file_id 사용
+       sha=file_id,        # sha 필드도 file_id 재활용
+       owner_user_id=1
+   )
     return {"ok": True, "item": {"fileId": file_id, "task": o.id, "filename": file.filename}}
 
 @router.post("/upload")
@@ -38,6 +44,12 @@ async def upload(files: list[UploadFile] = File(...)):
             shutil.copyfileobj(f.file, w)
 
         # 파이프라인: OCR → LLM → postproc (체이닝은 클라이언트에서 /task/status 조회로)
-        o = pipeline_task.delay(str(dest), f.filename, file_id, 1)
+        o = pipeline_task.delay(
+           file_path=str(dest),
+           filename=f.filename,
+           batch_id=file_id,
+           sha=file_id,
+           owner_user_id=1
+       )
         results.append({"fileId": file_id, "task": o.id, "filename": f.filename})
     return {"ok": True, "items": results}
