@@ -1,0 +1,226 @@
+'celery'은(는) 내부 또는 외부 명령, 실행할 수 있는 프로그램, 또는
+배치 파일이 아닙니다.
+'celery'은(는) 내부 또는 외부 명령, 실행할 수 있는 프로그램, 또는
+배치 파일이 아닙니다.
+'celery'은(는) 내부 또는 외부 명령, 실행할 수 있는 프로그램, 또는
+배치 파일이 아닙니다.
+ 
+ -------------- ocr@DESKTOP-3ABMNHE v5.4.0 (opalescent)
+--- ***** ----- 
+-- ******* ---- Windows-10-10.0.26100-SP0 2025-11-03 01:52:30
+- *** --- * --- 
+- ** ---------- [config]
+- ** ---------- .> app:         sumflow:0x2a3be083550
+- ** ---------- .> transport:   redis://localhost:6379/0
+- ** ---------- .> results:     redis://localhost:6379/0
+- *** --- * --- .> concurrency: 2 (prefork)
+-- ******* ---- .> task events: OFF (enable -E to monitor tasks in this worker)
+--- ***** ----- 
+ -------------- [queues]
+                .> ocr_cpu          exchange=ocr_cpu(direct) key=ocr_cpu
+                
+
+[2025-11-03 01:52:30,546: WARNING/MainProcess] C:\Users\user\anaconda3\envs\sumflow\lib\site-packages\celery\worker\consumer\consumer.py:508: CPendingDeprecationWarning: The broker_connection_retry configuration setting will no longer determine
+whether broker connection retries are made during startup in Celery 6.0 and above.
+If you wish to retain the existing behavior for retrying connections on startup,
+you should set broker_connection_retry_on_startup to True.
+  warnings.warn(
+
+[2025-11-03 01:52:30,557: WARNING/MainProcess] C:\Users\user\anaconda3\envs\sumflow\lib\site-packages\celery\worker\consumer\consumer.py:508: CPendingDeprecationWarning: The broker_connection_retry configuration setting will no longer determine
+whether broker connection retries are made during startup in Celery 6.0 and above.
+If you wish to retain the existing behavior for retrying connections on startup,
+you should set broker_connection_retry_on_startup to True.
+  warnings.warn(
+
+
+worker: Hitting Ctrl+C again will terminate all running tasks!
+
+worker: Warm shutdown (MainProcess)
+ 
+ -------------- ocr@DESKTOP-3ABMNHE v5.4.0 (opalescent)
+--- ***** ----- 
+-- ******* ---- Windows-10-10.0.26100-SP0 2025-11-03 02:01:10
+- *** --- * --- 
+- ** ---------- [config]
+- ** ---------- .> app:         sumflow:0x2c865083550
+- ** ---------- .> transport:   redis://localhost:6379/0
+- ** ---------- .> results:     redis://localhost:6379/0
+- *** --- * --- .> concurrency: 2 (prefork)
+-- ******* ---- .> task events: OFF (enable -E to monitor tasks in this worker)
+--- ***** ----- 
+ -------------- [queues]
+                .> ocr_cpu          exchange=ocr_cpu(direct) key=ocr_cpu
+                
+
+[2025-11-03 02:01:10,256: WARNING/MainProcess] C:\Users\user\anaconda3\envs\sumflow\lib\site-packages\celery\worker\consumer\consumer.py:508: CPendingDeprecationWarning: The broker_connection_retry configuration setting will no longer determine
+whether broker connection retries are made during startup in Celery 6.0 and above.
+If you wish to retain the existing behavior for retrying connections on startup,
+you should set broker_connection_retry_on_startup to True.
+  warnings.warn(
+
+[2025-11-03 02:01:10,269: WARNING/MainProcess] C:\Users\user\anaconda3\envs\sumflow\lib\site-packages\celery\worker\consumer\consumer.py:508: CPendingDeprecationWarning: The broker_connection_retry configuration setting will no longer determine
+whether broker connection retries are made during startup in Celery 6.0 and above.
+If you wish to retain the existing behavior for retrying connections on startup,
+you should set broker_connection_retry_on_startup to True.
+  warnings.warn(
+
+
+worker: Hitting Ctrl+C again will terminate all running tasks!
+
+worker: Warm shutdown (MainProcess)
+Traceback (most recent call last):
+  File "C:\Users\user\anaconda3\envs\sumflow\lib\runpy.py", line 196, in _run_module_as_main
+    return _run_code(code, main_globals, None,
+  File "C:\Users\user\anaconda3\envs\sumflow\lib\runpy.py", line 86, in _run_code
+    exec(code, run_globals)
+  File "C:\Users\user\anaconda3\envs\sumflow\Scripts\celery.exe\__main__.py", line 6, in <module>
+  File "C:\Users\user\anaconda3\envs\sumflow\lib\site-packages\celery\__main__.py", line 15, in main
+    sys.exit(_main())
+  File "C:\Users\user\anaconda3\envs\sumflow\lib\site-packages\celery\bin\celery.py", line 236, in main
+    return celery(auto_envvar_prefix="CELERY")
+  File "C:\Users\user\anaconda3\envs\sumflow\lib\site-packages\click\core.py", line 1161, in __call__
+    return self.main(*args, **kwargs)
+  File "C:\Users\user\anaconda3\envs\sumflow\lib\site-packages\click\core.py", line 1082, in main
+    rv = self.invoke(ctx)
+  File "C:\Users\user\anaconda3\envs\sumflow\lib\site-packages\click\core.py", line 1697, in invoke
+    return _process_result(sub_ctx.command.invoke(sub_ctx))
+  File "C:\Users\user\anaconda3\envs\sumflow\lib\site-packages\click\core.py", line 1443, in invoke
+    return ctx.invoke(self.callback, **ctx.params)
+  File "C:\Users\user\anaconda3\envs\sumflow\lib\site-packages\click\core.py", line 788, in invoke
+    return __callback(*args, **kwargs)
+  File "C:\Users\user\anaconda3\envs\sumflow\lib\site-packages\click\decorators.py", line 33, in new_func
+    return f(get_current_context(), *args, **kwargs)
+  File "C:\Users\user\anaconda3\envs\sumflow\lib\site-packages\celery\bin\base.py", line 135, in caller
+    return f(ctx, *args, **kwargs)
+  File "C:\Users\user\anaconda3\envs\sumflow\lib\site-packages\celery\bin\worker.py", line 348, in worker
+    worker = app.Worker(
+  File "C:\Users\user\anaconda3\envs\sumflow\lib\site-packages\celery\worker\worker.py", line 93, in __init__
+    self.app.loader.init_worker()
+  File "C:\Users\user\anaconda3\envs\sumflow\lib\site-packages\celery\loaders\base.py", line 110, in init_worker
+    self.import_default_modules()
+  File "C:\Users\user\anaconda3\envs\sumflow\lib\site-packages\celery\loaders\base.py", line 105, in import_default_modules
+    return [self.import_task_module(m) for m in self.default_modules]
+  File "C:\Users\user\anaconda3\envs\sumflow\lib\site-packages\celery\loaders\base.py", line 105, in <listcomp>
+    return [self.import_task_module(m) for m in self.default_modules]
+  File "C:\Users\user\anaconda3\envs\sumflow\lib\site-packages\celery\loaders\base.py", line 85, in import_task_module
+    return self.import_from_cwd(module)
+  File "C:\Users\user\anaconda3\envs\sumflow\lib\site-packages\celery\loaders\base.py", line 91, in import_from_cwd
+    return import_from_cwd(
+  File "C:\Users\user\anaconda3\envs\sumflow\lib\site-packages\celery\utils\imports.py", line 109, in import_from_cwd
+    return imp(module, package=package)
+  File "C:\Users\user\anaconda3\envs\sumflow\lib\site-packages\celery\loaders\base.py", line 88, in import_module
+    return importlib.import_module(module, package=package)
+  File "C:\Users\user\anaconda3\envs\sumflow\lib\importlib\__init__.py", line 126, in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+  File "<frozen importlib._bootstrap>", line 1050, in _gcd_import
+  File "<frozen importlib._bootstrap>", line 1027, in _find_and_load
+  File "<frozen importlib._bootstrap>", line 992, in _find_and_load_unlocked
+  File "<frozen importlib._bootstrap>", line 241, in _call_with_frames_removed
+  File "<frozen importlib._bootstrap>", line 1050, in _gcd_import
+  File "<frozen importlib._bootstrap>", line 1027, in _find_and_load
+  File "<frozen importlib._bootstrap>", line 1004, in _find_and_load_unlocked
+ModuleNotFoundError: No module named 'app'
+Traceback (most recent call last):
+  File "C:\Users\user\anaconda3\envs\sumflow\lib\runpy.py", line 196, in _run_module_as_main
+    return _run_code(code, main_globals, None,
+  File "C:\Users\user\anaconda3\envs\sumflow\lib\runpy.py", line 86, in _run_code
+    exec(code, run_globals)
+  File "C:\Users\user\anaconda3\envs\sumflow\Scripts\celery.exe\__main__.py", line 6, in <module>
+  File "C:\Users\user\anaconda3\envs\sumflow\lib\site-packages\celery\__main__.py", line 15, in main
+    sys.exit(_main())
+  File "C:\Users\user\anaconda3\envs\sumflow\lib\site-packages\celery\bin\celery.py", line 236, in main
+    return celery(auto_envvar_prefix="CELERY")
+  File "C:\Users\user\anaconda3\envs\sumflow\lib\site-packages\click\core.py", line 1161, in __call__
+    return self.main(*args, **kwargs)
+  File "C:\Users\user\anaconda3\envs\sumflow\lib\site-packages\click\core.py", line 1082, in main
+    rv = self.invoke(ctx)
+  File "C:\Users\user\anaconda3\envs\sumflow\lib\site-packages\click\core.py", line 1697, in invoke
+    return _process_result(sub_ctx.command.invoke(sub_ctx))
+  File "C:\Users\user\anaconda3\envs\sumflow\lib\site-packages\click\core.py", line 1443, in invoke
+    return ctx.invoke(self.callback, **ctx.params)
+  File "C:\Users\user\anaconda3\envs\sumflow\lib\site-packages\click\core.py", line 788, in invoke
+    return __callback(*args, **kwargs)
+  File "C:\Users\user\anaconda3\envs\sumflow\lib\site-packages\click\decorators.py", line 33, in new_func
+    return f(get_current_context(), *args, **kwargs)
+  File "C:\Users\user\anaconda3\envs\sumflow\lib\site-packages\celery\bin\base.py", line 135, in caller
+    return f(ctx, *args, **kwargs)
+  File "C:\Users\user\anaconda3\envs\sumflow\lib\site-packages\celery\bin\worker.py", line 348, in worker
+    worker = app.Worker(
+  File "C:\Users\user\anaconda3\envs\sumflow\lib\site-packages\celery\worker\worker.py", line 93, in __init__
+    self.app.loader.init_worker()
+  File "C:\Users\user\anaconda3\envs\sumflow\lib\site-packages\celery\loaders\base.py", line 110, in init_worker
+    self.import_default_modules()
+  File "C:\Users\user\anaconda3\envs\sumflow\lib\site-packages\celery\loaders\base.py", line 105, in import_default_modules
+    return [self.import_task_module(m) for m in self.default_modules]
+  File "C:\Users\user\anaconda3\envs\sumflow\lib\site-packages\celery\loaders\base.py", line 105, in <listcomp>
+    return [self.import_task_module(m) for m in self.default_modules]
+  File "C:\Users\user\anaconda3\envs\sumflow\lib\site-packages\celery\loaders\base.py", line 85, in import_task_module
+    return self.import_from_cwd(module)
+  File "C:\Users\user\anaconda3\envs\sumflow\lib\site-packages\celery\loaders\base.py", line 91, in import_from_cwd
+    return import_from_cwd(
+  File "C:\Users\user\anaconda3\envs\sumflow\lib\site-packages\celery\utils\imports.py", line 109, in import_from_cwd
+    return imp(module, package=package)
+  File "C:\Users\user\anaconda3\envs\sumflow\lib\site-packages\celery\loaders\base.py", line 88, in import_module
+    return importlib.import_module(module, package=package)
+  File "C:\Users\user\anaconda3\envs\sumflow\lib\importlib\__init__.py", line 126, in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+  File "<frozen importlib._bootstrap>", line 1050, in _gcd_import
+  File "<frozen importlib._bootstrap>", line 1027, in _find_and_load
+  File "<frozen importlib._bootstrap>", line 992, in _find_and_load_unlocked
+  File "<frozen importlib._bootstrap>", line 241, in _call_with_frames_removed
+  File "<frozen importlib._bootstrap>", line 1050, in _gcd_import
+  File "<frozen importlib._bootstrap>", line 1027, in _find_and_load
+  File "<frozen importlib._bootstrap>", line 1004, in _find_and_load_unlocked
+ModuleNotFoundError: No module named 'app'
+Traceback (most recent call last):
+  File "C:\Users\user\anaconda3\envs\sumflow\lib\runpy.py", line 196, in _run_module_as_main
+    return _run_code(code, main_globals, None,
+  File "C:\Users\user\anaconda3\envs\sumflow\lib\runpy.py", line 86, in _run_code
+    exec(code, run_globals)
+  File "C:\Users\user\anaconda3\envs\sumflow\Scripts\celery.exe\__main__.py", line 6, in <module>
+  File "C:\Users\user\anaconda3\envs\sumflow\lib\site-packages\celery\__main__.py", line 15, in main
+    sys.exit(_main())
+  File "C:\Users\user\anaconda3\envs\sumflow\lib\site-packages\celery\bin\celery.py", line 236, in main
+    return celery(auto_envvar_prefix="CELERY")
+  File "C:\Users\user\anaconda3\envs\sumflow\lib\site-packages\click\core.py", line 1161, in __call__
+    return self.main(*args, **kwargs)
+  File "C:\Users\user\anaconda3\envs\sumflow\lib\site-packages\click\core.py", line 1082, in main
+    rv = self.invoke(ctx)
+  File "C:\Users\user\anaconda3\envs\sumflow\lib\site-packages\click\core.py", line 1697, in invoke
+    return _process_result(sub_ctx.command.invoke(sub_ctx))
+  File "C:\Users\user\anaconda3\envs\sumflow\lib\site-packages\click\core.py", line 1443, in invoke
+    return ctx.invoke(self.callback, **ctx.params)
+  File "C:\Users\user\anaconda3\envs\sumflow\lib\site-packages\click\core.py", line 788, in invoke
+    return __callback(*args, **kwargs)
+  File "C:\Users\user\anaconda3\envs\sumflow\lib\site-packages\click\decorators.py", line 33, in new_func
+    return f(get_current_context(), *args, **kwargs)
+  File "C:\Users\user\anaconda3\envs\sumflow\lib\site-packages\celery\bin\base.py", line 135, in caller
+    return f(ctx, *args, **kwargs)
+  File "C:\Users\user\anaconda3\envs\sumflow\lib\site-packages\celery\bin\worker.py", line 348, in worker
+    worker = app.Worker(
+  File "C:\Users\user\anaconda3\envs\sumflow\lib\site-packages\celery\worker\worker.py", line 93, in __init__
+    self.app.loader.init_worker()
+  File "C:\Users\user\anaconda3\envs\sumflow\lib\site-packages\celery\loaders\base.py", line 110, in init_worker
+    self.import_default_modules()
+  File "C:\Users\user\anaconda3\envs\sumflow\lib\site-packages\celery\loaders\base.py", line 105, in import_default_modules
+    return [self.import_task_module(m) for m in self.default_modules]
+  File "C:\Users\user\anaconda3\envs\sumflow\lib\site-packages\celery\loaders\base.py", line 105, in <listcomp>
+    return [self.import_task_module(m) for m in self.default_modules]
+  File "C:\Users\user\anaconda3\envs\sumflow\lib\site-packages\celery\loaders\base.py", line 85, in import_task_module
+    return self.import_from_cwd(module)
+  File "C:\Users\user\anaconda3\envs\sumflow\lib\site-packages\celery\loaders\base.py", line 91, in import_from_cwd
+    return import_from_cwd(
+  File "C:\Users\user\anaconda3\envs\sumflow\lib\site-packages\celery\utils\imports.py", line 109, in import_from_cwd
+    return imp(module, package=package)
+  File "C:\Users\user\anaconda3\envs\sumflow\lib\site-packages\celery\loaders\base.py", line 88, in import_module
+    return importlib.import_module(module, package=package)
+  File "C:\Users\user\anaconda3\envs\sumflow\lib\importlib\__init__.py", line 126, in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+  File "<frozen importlib._bootstrap>", line 1050, in _gcd_import
+  File "<frozen importlib._bootstrap>", line 1027, in _find_and_load
+  File "<frozen importlib._bootstrap>", line 992, in _find_and_load_unlocked
+  File "<frozen importlib._bootstrap>", line 241, in _call_with_frames_removed
+  File "<frozen importlib._bootstrap>", line 1050, in _gcd_import
+  File "<frozen importlib._bootstrap>", line 1027, in _find_and_load
+  File "<frozen importlib._bootstrap>", line 1004, in _find_and_load_unlocked
+ModuleNotFoundError: No module named 'app'

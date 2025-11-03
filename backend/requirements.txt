@@ -1,0 +1,52 @@
+# --- FastAPI 기본 ---
+fastapi==0.115.0
+uvicorn==0.30.6
+
+# --- 데이터 검증 / 모델 ---
+pydantic==2.9.2
+pydantic[email]           #  이메일 검증 확장
+python-multipart==0.0.9   #  파일 업로드 처리용
+
+# --- OCR / 이미지 ---
+pytesseract==0.3.13
+pillow==10.4.0
+PyMuPDF==1.24.10
+
+# --- HTTP / 시스템 ---
+requests==2.32.3
+psutil==6.0.0
+tqdm==4.66.4              #  ZIP 진행률 표시
+
+# --- 환경 변수 ---
+python-dotenv==1.0.1      #  .env 로드 지원
+
+# --- 데이터베이스 ---
+SQLAlchemy==2.0.35        #  ORM
+pymysql==1.1.1            #  MySQL 드라이버
+mysql-connector-python==9.0.0   #  (선택) MySQL 공식 커넥터 — 필요 시 병행 테스트용
+
+# --- 인증 / 보안 ---
+bcrypt==4.1.3             #  비밀번호 해시
+PyJWT==2.9.0              #  JWT 토큰 인코딩/디코딩
+
+# --- (선택) 개발용 유틸 ---
+# passlib[bcrypt]==1.7.4   #  bcrypt 헬퍼 (원하면 추가)
+
+# --- tts ---
+gTTS==2.5.3
+
+# --- 압축 파일 처리  ---
+pyzipper==0.3.6
+
+# --- 전처리 (OpenCV 대체)
+numpy==1.26.4             #  scikit-image와 호환 (NumPy 2.x 충돌 회피)
+scikit-image==0.24.0      #  Sauvola 등 고급 이진화
+
+# --- 비동기 큐
+celery==5.4.0
+redis==5.0.8
+
+# --- 오피스 문서 파서 (docx/pptx/xlsx)
+python-docx==1.1.2
+python-pptx==0.6.23
+openpyxl==3.1.5
