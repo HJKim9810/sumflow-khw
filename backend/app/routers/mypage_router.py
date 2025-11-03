@@ -2,10 +2,10 @@
 from fastapi import APIRouter, Depends, Query, HTTPException
 from sqlalchemy.orm import Session
 from typing import List, Optional, Dict, Any
-from core.db import get_db
-from core.security import decode_access_token
-from models.user_model import AppUser
-from models.document_model import Document
+from app.core.db import get_db
+from app.core.security import decode_access_token
+from app.models.user_model import AppUser
+from app.models.document_model import Document
 from sqlalchemy import or_, and_
 
 router = APIRouter(

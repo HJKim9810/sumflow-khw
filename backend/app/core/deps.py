@@ -2,7 +2,7 @@ from fastapi import Depends, HTTPException, status
 from sqlalchemy.orm import Session
 from .db import get_db
 from .security import decode_access_token  # JWT 파싱 함수 (예상)
-from models.user_model import AppUser
+from app.models.user_model import AppUser
 
 def get_current_user(
     db: Session = Depends(get_db),

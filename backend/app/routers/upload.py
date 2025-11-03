@@ -1,10 +1,9 @@
 from fastapi import APIRouter, UploadFile, File, HTTPException
 from pathlib import Path
 import uuid, shutil
-from ..core.config import BASE
-from ..utils.paths import classify_ext
-from ..tasks import ocr_cpu_task, llm_gpu_task, postproc_task
-
+from app.core.config import BASE
+from app.utils.paths import classify_ext
+from app.tasks import pipeline as pipeline_task
 router = APIRouter(prefix="/ocr", tags=["OCR"])
 
 TMP_UPLOAD = BASE / "tmp"
@@ -22,6 +21,6 @@ async def upload(files: list[UploadFile] = File(...)):
             shutil.copyfileobj(f.file, w)
 
         # 파이프라인: OCR → LLM → postproc (체이닝은 클라이언트에서 /task/status 조회로)
-        o = ocr_cpu_task.delay(str(dest), f.filename, file_id)
+        o = pipeline_task.delay(str(dest), f.filename, file_id, 1)
         results.append({"fileId": file_id, "task": o.id, "filename": f.filename})
     return {"ok": True, "items": results}

@@ -1,5 +1,5 @@
 from __future__ import annotations
-from ..thirdparty.merge_core.llm_engine import summarize_with_ollama  # core 호출
+from app.thirdparty.merge_core.llm_engine import summarize_with_ollama  # core 호출
 from app.core.config import OUTPUT_ROOT
 import os
 import re
@@ -44,25 +44,25 @@ def _parse_ollama_options(s: str | None) -> dict:
 # ===== 설정: core/config.py 우선, 없으면 env 폴백 =====
 try:
     # 프로젝트 표준(권장)
-    from ..core.config import (
+    from app.core.config import (
         OLLAMA_BASE,       # 예: "http://127.0.0.1:11434"
         LLM_MODEL,         # 예: "llama3" or "gemma3-summarizer"
     )
     # 선택 필드(없으면 except에서 폴백)
     try:
-        from ..core.config import OLLAMA_TIMEOUT as _CFG_TIMEOUT  # seconds
+        from app.core.config import OLLAMA_TIMEOUT as _CFG_TIMEOUT  # seconds
     except Exception:
         _CFG_TIMEOUT = None
     try:
-        from ..core.config import OLLAMA_OPTIONS as _CFG_OPTIONS  # dict
+        from app.core.config import OLLAMA_OPTIONS as _CFG_OPTIONS  # dict
     except Exception:
         _CFG_OPTIONS = None
     try:
-        from ..core.config import SUMM_ENABLED as _CFG_SUMM_ENABLED  # bool
+        from app.core.config import SUMM_ENABLED as _CFG_SUMM_ENABLED  # bool
     except Exception:
         _CFG_SUMM_ENABLED = None
     try:
-        from ..core.config import SUMM_QUICK_THRESHOLD as _CFG_QUICK  # int
+        from app.core.config import SUMM_QUICK_THRESHOLD as _CFG_QUICK  # int
     except Exception:
         _CFG_QUICK = None
 except Exception:
@@ -493,7 +493,6 @@ def summarize_text_simple(text: str) -> dict:
     return {"title": title, "bullets": [], "category": cat, "subcategory": sub, "raw": ""}
 
 from app.utils.category_name import normalize_category
-raw_category = normalize_category(raw_category) if raw_category else None
 
 def summarize_to_file(input_txt_path: Path, summary_out_path: Path, *, title_hint: str | None = None, category: bool = False, timeout_s: int = 60):
     """
@@ -574,10 +573,12 @@ def summarize_to_file(input_txt_path: Path, summary_out_path: Path, *, title_hin
     if category:
         try:
             # thirdparty parser가 있는 경우에만 사용 (없으면 스킵)
-            from ..thirdparty.merge_core.category_parser import guess_category
+            from app.thirdparty.merge_core.category_parser import guess_category
             raw_category = guess_category(summary or raw_text)
         except Exception:
             raw_category = None
+            
+    raw_category = normalize_category(raw_category) if raw_category else None
 
     return {"summary": summary, "title": title}, raw_category
 

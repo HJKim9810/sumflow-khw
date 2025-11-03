@@ -1,7 +1,7 @@
 # backend/user/models.py
 from sqlalchemy import Column, String, BigInteger, Boolean, DateTime, Date, func
 from sqlalchemy.orm import declarative_base, relationship
-from core.db import Base
+from app.core.db import Base
 
 class AppUser(Base):
     """

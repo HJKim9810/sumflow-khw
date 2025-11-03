@@ -1,8 +1,8 @@
 from pathlib import Path
 from zipfile import ZipFile, ZIP_DEFLATED
 import shutil
-from ..core.config import EXPORT_ROOT
-from ..utils.paths import export_zip_path
+from app.core.config import EXPORT_ROOT
+from app.utils.paths import export_zip_path
 
 def build_category_zip_by_documents(batch_id: str, docs: list[dict]) -> Path:
     """

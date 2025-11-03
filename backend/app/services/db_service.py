@@ -7,7 +7,7 @@ try:
     from app.core.config import DB_URL
 except Exception:
     try:
-        from core.config import DB_URL
+        from app.core.config import DB_URL
     except Exception:
         import os
         DB_URL = os.getenv("DB_URL")

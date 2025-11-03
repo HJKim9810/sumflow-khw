@@ -4,10 +4,10 @@ from sqlalchemy.orm import Session
 from typing import Dict, Any
 from datetime import datetime
 
-from core.db import get_db
-from core.security import decode_access_token
-from models.document_model import Document
-from models.comment_model import DocComment
+from app.core.db import get_db
+from app.core.security import decode_access_token
+from app.models.document_model import Document
+from app.models.comment_model import DocComment
 
 router = APIRouter(prefix="/api/v1/documents", tags=["Comments"])
 

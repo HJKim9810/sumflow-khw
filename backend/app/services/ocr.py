@@ -1,6 +1,6 @@
 from __future__ import annotations
 # merge 엔진(격리 복사본) 사용
-from ..thirdparty.merge_core.ocr_engine import extract_text_from_pdf
+from app.thirdparty.merge_core.ocr_engine import extract_text_from_pdf
 
 import os, io, zipfile, shutil,json
 from pathlib import Path
@@ -15,7 +15,7 @@ from pytesseract import Output
 # 설정 로드 (core/config.py 기반)
 # ============================================================
 try:
-    from ..core.config import (
+    from app.core.config import (
         TESSERACT_CMD,
         TESSDATA_PREFIX,
         OCR_DPI,

@@ -2,10 +2,10 @@ from datetime import datetime, timedelta
 from sqlalchemy.orm import Session, aliased
 from sqlalchemy import func, case, and_
 
-from models.user_model import AppUser
-from models.document_model import Document
-from models.visitlog_model import VisitLog
-from schemas.admin_schema import AdminStatsSummary, DailyUploadStat, DailyVisitStat
+from app.models.user_model import AppUser
+from app.models.document_model import Document
+from app.models.visitlog_model import VisitLog
+from app.schemas.admin_schema import AdminStatsSummary, DailyUploadStat, DailyVisitStat
 
 def get_admin_stats_summary(db: Session) -> AdminStatsSummary:
     now = datetime.now()

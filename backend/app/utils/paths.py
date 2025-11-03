@@ -1,6 +1,6 @@
 from pathlib import Path
 from typing import Tuple
-from core.config import OUTPUT_ROOT, EXPORT_ROOT
+from app.core.config import OUTPUT_ROOT, EXPORT_ROOT
 
 EXT_PDF   = {".pdf"}
 EXT_IMG   = {".png", ".jpg", ".jpeg", ".tif", ".tiff", ".bmp", ".webp"}

@@ -16,15 +16,15 @@ load_dotenv()
 import anyio
 
 # --- 내부 서비스/유틸 ---
-from services.ocr import ocr_funnel_extract, batch_ocr_zip
-from services.llm import summarize_and_categorize
-from services.db_service import insert_or_update_doc
-from utils.version import get_version
-from utils.telemetry import Telemetry, PerfRecorder
-from core.db import SessionLocal
-from core.security import decode_access_token
-from models.visitlog_model import VisitLog
-from models.user_model import AppUser
+from app.services.ocr import ocr_funnel_extract, batch_ocr_zip
+from app.services.llm import summarize_and_categorize
+from app.services.db_service import insert_or_update_doc
+from app.utils.version import get_version
+from app.utils.telemetry import Telemetry, PerfRecorder
+from app.core.db import SessionLocal
+from app.core.security import decode_access_token
+from app.models.visitlog_model import VisitLog
+from app.models.user_model import AppUser
 
 # =========================
 # 기본 설정/로그
@@ -458,15 +458,15 @@ def logout_alias(token_data: dict = Depends(decode_access_token)):
 # =========================
 # 기존 라우터들
 # =========================
-from services.captcha import router as captcha_router
-from services.signup import router as signup_router
-from services.login import router as login_router
-from routers.admin_router import router as admin_router
-from routers.user_check_router import router as user_check_router
-from routers.email_verify_router import router as email_verify_router
-from routers.mypage_router import router as mypage_router
-from routers import comments
-from routers.account_recovery_router import router as account_recovery_router
+from app.services.captcha import router as captcha_router
+from app.services.signup import router as signup_router
+from app.services.login import router as login_router
+from app.routers.admin_router import router as admin_router
+from app.routers.user_check_router import router as user_check_router
+from app.routers.email_verify_router import router as email_verify_router
+from app.routers.mypage_router import router as mypage_router
+from app.routers import comments
+from app.routers.account_recovery_router import router as account_recovery_router
 
 app.include_router(captcha_router)
 app.include_router(signup_router)

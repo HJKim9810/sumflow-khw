@@ -4,9 +4,9 @@ from sqlalchemy.orm import Session
 from sqlalchemy import func
 import bcrypt
 
-from core.db import get_db
-from models.user_model import AppUser
-from models.email_verification_model import EmailVerification
+from app.core.db import get_db
+from app.models.user_model import AppUser
+from app.models.email_verification_model import EmailVerification
 
 router = APIRouter(prefix="/api/v1/user", tags=["User"])
 

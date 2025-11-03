@@ -13,7 +13,7 @@ from sqlalchemy import (
 )
 from sqlalchemy.dialects.mysql import DATETIME
 from sqlalchemy.orm import relationship
-from core.db import Base
+from app.core.db import Base
 
 class Document(Base):
     __tablename__ = "DOCUMENT"
