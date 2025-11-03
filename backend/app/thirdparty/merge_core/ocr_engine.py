@@ -1,22 +1,29 @@
 # backend/app/core/ocr_engine.py
-import os
 import time
 import re
 import fitz
 import pytesseract
 from PIL import Image, ImageOps, ImageFilter
 
-# .env 기반 설정
-from app.config import (
-    OCR_TEXTLAYER_FIRST,
-    OCR_LANG,
-    OCR_LANG_SECONDARY,
-    OCR_PSM_DEFAULT,
-    OCR_USER_DPI,
-    OCR_UPSCALE,
-    OCR_DESKEW,
-    TESSDATA_PREFIX,
+# --- sumflow 환경 호환 import 어댑터 ---
+from app.core.config import (
+    OCR_DPI, OCR_LANGS, OCR_PSM, TESSDATA_PREFIX
 )
+import os
+
+# merge 엔진이 기대하는 별칭값을 sumflow 환경값 기반으로 생성
+OCR_TEXTLAYER_FIRST = int(os.getenv("OCR_TEXTLAYER_FIRST", "1"))
+OCR_UPSCALE = int(os.getenv("OCR_UPSCALE", "0"))
+OCR_DESKEW = int(os.getenv("OCR_DESKEW", "0"))
+
+# sumflow OCR_LANGS(e.g. "kor+eng")를 1차/2차로 분리
+_langs = (OCR_LANGS or "kor+eng").split("+", 1)
+OCR_LANG = _langs[0]
+OCR_LANG_SECONDARY = _langs[1] if len(_langs) > 1 else ""
+
+OCR_USER_DPI = OCR_DPI
+OCR_PSM_DEFAULT = OCR_PSM
+# ---------------------------------------
 
 HANGUL_RE = re.compile(r"[가-힣]")
 
