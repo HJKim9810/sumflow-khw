@@ -1,5 +1,6 @@
 from __future__ import annotations
-
+from ..thirdparty.merge_core.llm_engine import summarize_with_ollama  # core 호출
+from app.core.config import OUTPUT_ROOT
 import os
 import re
 import json
@@ -13,6 +14,32 @@ from requests.adapters import HTTPAdapter
 from urllib3.util.retry import Retry
 
 logger = logging.getLogger("app")
+
+def _parse_ollama_options(s: str | None) -> dict:
+    if not s:
+        return {}
+    out = {}
+    for token in s.split(","):
+        token = token.strip()
+        if not token or "=" not in token:
+            continue
+        k, v = token.split("=", 1)
+        k = k.strip()
+        v = v.strip()
+        # 숫자형이면 변환
+        try:
+            if "." in v:
+                out[k] = float(v)
+            else:
+                out[k] = int(v)
+        except ValueError:
+            # true/false 처리
+            lv = v.lower()
+            if lv in ("true", "false"):
+                out[k] = (lv == "true")
+            else:
+                out[k] = v
+    return out
 
 # ===== 설정: core/config.py 우선, 없으면 env 폴백 =====
 try:
@@ -465,15 +492,95 @@ def summarize_text_simple(text: str) -> dict:
     cat, sub = _rule_category(t)
     return {"title": title, "bullets": [], "category": cat, "subcategory": sub, "raw": ""}
 
-def summarize_to_file(merged_txt_path: Path, out_path: Path) -> tuple[str, str]:
-    """파일 입력 → 2줄 결과 파일 저장(요약/카테고리). 기존 llm_exec.py 대체."""
-    text = merged_txt_path.read_text(encoding="utf-8", errors="ignore")
-    result = summarize_text_simple(text)
-    cat = f"{result['category']}/{result['subcategory']}"
-    out = f"요약:\n{result['title']}\n카테고리: {cat}"
-    out_path.parent.mkdir(parents=True, exist_ok=True)
-    out_path.write_text(out, encoding="utf-8")
-    return out, cat
+from app.utils.category_name import normalize_category
+raw_category = normalize_category(raw_category) if raw_category else None
+
+def summarize_to_file(input_txt_path: Path, summary_out_path: Path, *, title_hint: str | None = None, category: bool = False, timeout_s: int = 60):
+    """
+    기존 sumflow 퍼사드 유지:
+    - input_txt_path: OCR 결과 텍스트 파일(merged.txt)
+    - summary_out_path: 결과 저장 경로 (.../llm/summary.txt)
+    - 반환: (result_dict, raw_category)  # 두 번째 값은 category=False면 None
+    """
+    input_txt_path = Path(input_txt_path)
+    summary_out_path = Path(summary_out_path)
+    summary_out_path.parent.mkdir(parents=True, exist_ok=True)
+
+    if not input_txt_path.exists():
+        raise FileNotFoundError(f"input text not found: {input_txt_path}")
+
+    raw_text = input_txt_path.read_text(encoding="utf-8", errors="ignore").strip()
+    if not raw_text:
+        # 비어있으면 최소 가드
+        summary_out_path.write_text("", encoding="utf-8")
+        return {"summary": "", "title": title_hint or ""}, None
+
+    # ---- 프롬프트 구성 (기존 규약 최대한 유지) ----
+    # * 필요하면 기존 프로젝트의 prompt builder를 사용
+    # * 여기서는 안전한 기본 템플릿 제공
+    prompt = (
+        "당신은 한국어 문서 요약가입니다.\n"
+        "다음 문서를 7~10문장 내로 핵심만 요약하고, 한 줄짜리 제목을 함께 제시하세요.\n"
+        "형식:\n"
+        "[제목]\n"
+        "<한줄제목>\n\n"
+        "[요약]\n"
+        "<불릿 없이 단락 요약>\n\n"
+        "----- 문서 시작 -----\n"
+        f"{raw_text[:12000]}\n"  # 길이 가드
+        "----- 문서 끝 -----\n"
+    )
+    if title_hint:
+        prompt = f"(참고 제목 힌트: {title_hint})\n" + prompt
+
+    # ---- OLLAMA 옵션 합성 (.env에서 문자열로 넘어온 것 변환) ----
+    options = _parse_ollama_options(os.getenv("OLLAMA_OPTIONS"))
+    # 예: temperature=0.2,top_p=0.9,num_predict=384 → {"temperature":0.2,"top_p":0.9,"num_predict":384}
+
+    # ---- merge 클라이언트 호출 ----
+    # summarize_with_ollama는 내부에서 OLLAMA_HOST/MODEL을 읽음
+    # 네트워크/서버 타임아웃은 모듈 내부 기본값 사용 + 상위 timeout_s로 래핑
+    result = summarize_with_ollama(
+        prompt=prompt,
+        options=options,
+        timeout_s=timeout_s
+    )
+    # 기대 형태: {"summary":"...","title":"...","raw":"..."}  (raw는 모델 원문 혹은 디버그 텍스트)
+
+    # ---- 후처리: 제목/요약 파싱, 결측치 보정 ----
+    title = (result.get("title") or "").strip()
+    summary = (result.get("summary") or "").strip()
+
+    if not title:
+        # [제목] 블록에서 첫 줄 추론
+        # 또는 요약 첫 문장 1줄을 제목 대용
+        t = ""
+        raw = result.get("raw") or ""
+        for line in raw.splitlines():
+            line = line.strip()
+            if line and len(line) <= 60 and not line.startswith("["):
+                t = line
+                break
+        title = t or (summary.splitlines()[0].strip() if summary else (title_hint or ""))
+
+    # ---- 파일 저장 (기존 경로/형식 유지) ----
+    # summary.txt에는 요약만 저장 (UI/소비자 로직 유지)
+    summary_out_path.write_text(summary, encoding="utf-8")
+
+    # (선택) meta.json에 LLM 결과 부가 정보 쓰는 곳이 따로 있다면 그대로 유지
+
+    # ---- 카테고리 추론 (옵션) ----
+    raw_category = None
+    if category:
+        try:
+            # thirdparty parser가 있는 경우에만 사용 (없으면 스킵)
+            from ..thirdparty.merge_core.category_parser import guess_category
+            raw_category = guess_category(summary or raw_text)
+        except Exception:
+            raw_category = None
+
+    return {"summary": summary, "title": title}, raw_category
+
 
 # ===== 공개 API =====
 def summarize_and_categorize(text: str) -> Dict[str, Any]:
