@@ -1,0 +1,12 @@
+{
+  "file_id": "30fc18ffd079",
+  "batch_id": "30fc18ffd07947c9a15e2abc5878da20",
+  "filename": "2205200_정무위원회_심사보고서.pdf",
+  "pages": 4,
+  "title": null,
+  "category": null,
+  "paths": {
+    "summary_txt": "llm/summary.txt",
+    "meta_json": "meta.json"
+  }
+}

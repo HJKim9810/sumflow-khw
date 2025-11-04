@@ -1,0 +1,12 @@
+{
+  "file_id": "cd7f40b07090",
+  "batch_id": "cd7f40b070904318915cb1adef252753",
+  "filename": "2202885_의사국 의안과_의안원문.pdf",
+  "pages": 21,
+  "title": null,
+  "category": null,
+  "paths": {
+    "summary_txt": "llm/summary.txt",
+    "meta_json": "meta.json"
+  }
+}

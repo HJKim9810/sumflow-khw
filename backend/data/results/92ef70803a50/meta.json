@@ -1,0 +1,21 @@
+{
+  "file_id": "92ef70803a50",
+  "filename": "92ef70803a5049d98ac0a3a6b8143ff9.pdf",
+  "pages": 9,
+  "created_at": "2025-11-04T03:46:28.050783Z",
+  "ocr": {
+    "mode": "merge_core",
+    "dpi": 300,
+    "lang": "kor+eng",
+    "text_layer_pages": null,
+    "coverage": null,
+    "psm": "6"
+  },
+  "paths": {
+    "out_dir": "data\\results\\92ef70803a50",
+    "merged_txt": "merged.txt",
+    "pages_dir": "pages/",
+    "summary_dir": "llm/",
+    "meta_json": "meta.json"
+  }
+}

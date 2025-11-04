@@ -1,0 +1,21 @@
+{
+  "file_id": "cd7f40b07090",
+  "filename": "cd7f40b070904318915cb1adef252753.pdf",
+  "pages": 21,
+  "created_at": "2025-11-04T02:22:39.260741Z",
+  "ocr": {
+    "mode": "merge_core",
+    "dpi": 300,
+    "lang": "kor+eng",
+    "text_layer_pages": null,
+    "coverage": null,
+    "psm": "6"
+  },
+  "paths": {
+    "out_dir": "data\\results\\cd7f40b07090",
+    "merged_txt": "merged.txt",
+    "pages_dir": "pages/",
+    "summary_dir": "llm/",
+    "meta_json": "meta.json"
+  }
+}

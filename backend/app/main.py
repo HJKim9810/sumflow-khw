@@ -2,7 +2,7 @@ import os, io, uuid, zipfile, jwt
 import logging, traceback, json, time, re, unicodedata
 from typing import List, Optional
 from pathlib import Path
-
+from starlette.responses import Response
 from fastapi import FastAPI, UploadFile, File, HTTPException, Form, Request, Depends
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import StreamingResponse, JSONResponse
@@ -54,12 +54,19 @@ logger.info(f"🌐 Ollama host: {OLLAMA_HOST}")
 
 app = FastAPI(title=APP_NAME)
 
+ALLOWED_ORIGINS = [
+    "http://localhost:5173",
+    "http://127.0.0.1:5173",
+]
+
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["http://localhost:5173"],  # 또는 ["*"] 테스트용
-    allow_credentials=True,
-    allow_methods=["*"],
-    allow_headers=["*"],
+    allow_origins=ALLOWED_ORIGINS,
+    allow_credentials=True,   # Authorization 헤더/쿠키 쓰면 True 유지
+    allow_methods=["*"],      # OPTIONS 포함
+    allow_headers=["*"],      # Authorization, Content-Type 등
+    expose_headers=["*"],
+    max_age=86400,
 )
 
 # =========================
@@ -110,6 +117,29 @@ async def _visit_logger(request: Request, call_next):
             db.close()
 
     return await call_next(request)
+
+# =========================
+# (보증) 모든 응답에 CORS 헤더 부착
+#  - 프리플라이트/에러 응답 포함 보장
+# =========================
+@app.middleware("http")
+async def _ensure_cors_headers(request: Request, call_next):
+    origin = request.headers.get("origin")
+    if request.method == "OPTIONS":
+        resp = Response(status_code=200)
+    else:
+        try:
+            resp = await call_next(request)
+        except Exception:
+            resp = Response(status_code=500)
+    if origin in ALLOWED_ORIGINS:
+        req_headers = request.headers.get("access-control-request-headers")
+        resp.headers["Access-Control-Allow-Origin"] = origin
+        resp.headers["Access-Control-Allow-Credentials"] = "true"
+        resp.headers["Access-Control-Allow-Methods"] = "GET,POST,PUT,PATCH,DELETE,OPTIONS"
+        resp.headers["Access-Control-Allow-Headers"] = req_headers or "Authorization, Content-Type"
+        resp.headers["Vary"] = "Origin"
+    return resp
 
 # =========================
 # 요청 모델

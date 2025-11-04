@@ -1,0 +1,21 @@
+{
+  "file_id": "769afab85a53",
+  "filename": "2212398_법제사법위원회_체계자구검토보고서.pdf",
+  "pages": 11,
+  "created_at": "2025-11-04T06:49:45.783509Z",
+  "ocr": {
+    "mode": "merge_core",
+    "dpi": 300,
+    "lang": "kor+eng",
+    "text_layer_pages": null,
+    "coverage": null,
+    "psm": "6"
+  },
+  "paths": {
+    "out_dir": "data\\results\\769afab85a53",
+    "merged_txt": "merged.txt",
+    "pages_dir": "pages/",
+    "summary_dir": "llm/",
+    "meta_json": "meta.json"
+  }
+}
