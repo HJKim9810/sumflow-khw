@@ -7,7 +7,7 @@ from sqlalchemy import (
     func,
 )
 from sqlalchemy.orm import relationship
-from core.db import Base
+from app.core.db import Base
 
 class VisitLog(Base):
     __tablename__ = "VISIT_LOG"

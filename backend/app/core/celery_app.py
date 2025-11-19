@@ -25,8 +25,9 @@ celery_app.conf.update(
     # 라우팅: 태스크 이름 -> 큐
     task_routes={
         "tasks.ocr_cpu": {"queue": "ocr_cpu"},
-        "tasks.llm_gpu": {"queue": "llm_gpu"},
+        "tasks.llm_gpu": {"queue": "llm_cpu"},
         "tasks.postproc": {"queue": "postproc"},
+        "tasks.pipeline": {"queue": "ocr_cpu"},
     },
 
     # 안전한 직렬화
@@ -38,8 +39,10 @@ celery_app.conf.update(
 # 큐 명시(필수는 아니지만, 워커가 없는 큐로 빠지는 사고를 줄여줌)
 celery_app.conf.task_queues = (
     Queue("ocr_cpu"),
-    Queue("llm_gpu"),
+    Queue("llm_cpu"),
     Queue("postproc"),
 )
+
+celery_app.conf.task_default_queue = "ocr_cpu"
 
 __all__ = ["celery_app"]

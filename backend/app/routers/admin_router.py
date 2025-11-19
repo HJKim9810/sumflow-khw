@@ -2,13 +2,13 @@ from fastapi import APIRouter, Depends, HTTPException, Query
 from fastapi import status as http_status
 from sqlalchemy.orm import Session
 from datetime import datetime, timedelta
-from core.deps import get_db
-from models.user_model import AppUser
-from models.document_model import Document
-from models.visitlog_model import VisitLog  
+from app.core.deps import get_db
+from app.models.user_model import AppUser
+from app.models.document_model import Document
+from app.models.visitlog_model import VisitLog  
 from sqlalchemy import func
-from schemas.admin_schema import AdminFileListResponse, AdminFileItem
-from services.admin_service import (list_files_service, soft_delete_document_service,)
+from app.schemas.admin_schema import AdminFileListResponse, AdminFileItem
+from app.services.admin_service import (list_files_service, soft_delete_document_service,)
 
 
 router = APIRouter(prefix="/admin", tags=["Admin"])

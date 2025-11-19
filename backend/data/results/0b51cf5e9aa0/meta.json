@@ -1,0 +1,21 @@
+{
+  "file_id": "0b51cf5e9aa0",
+  "filename": "0b51cf5e9aa042bf8728288998fc0114.pdf",
+  "pages": 8,
+  "created_at": "2025-11-04T02:57:07.087488Z",
+  "ocr": {
+    "mode": "merge_core",
+    "dpi": 300,
+    "lang": "kor+eng",
+    "text_layer_pages": null,
+    "coverage": null,
+    "psm": "6"
+  },
+  "paths": {
+    "out_dir": "data\\results\\0b51cf5e9aa0",
+    "merged_txt": "merged.txt",
+    "pages_dir": "pages/",
+    "summary_dir": "llm/",
+    "meta_json": "meta.json"
+  }
+}

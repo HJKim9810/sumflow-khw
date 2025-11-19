@@ -1,0 +1,21 @@
+{
+  "file_id": "bb77733bb66f",
+  "filename": "2212398_정무위원회_위원회의결안.pdf",
+  "pages": 13,
+  "created_at": "2025-11-04T06:50:28.094010Z",
+  "ocr": {
+    "mode": "merge_core",
+    "dpi": 300,
+    "lang": "kor+eng",
+    "text_layer_pages": null,
+    "coverage": null,
+    "psm": "6"
+  },
+  "paths": {
+    "out_dir": "data\\results\\bb77733bb66f",
+    "merged_txt": "merged.txt",
+    "pages_dir": "pages/",
+    "summary_dir": "llm/",
+    "meta_json": "meta.json"
+  }
+}

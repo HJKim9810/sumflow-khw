@@ -1,9 +1,9 @@
 from fastapi import APIRouter, HTTPException
 from fastapi.responses import FileResponse
 from pathlib import Path
-from ..services.db_service import SessionLocal, Document
-from ..core.config import OUTPUT_ROOT
-from ..services.zip_service import build_category_zip_by_documents
+from app.services.db_service import SessionLocal, Document
+from app.core.config import OUTPUT_ROOT
+from app.services.zip_service import build_category_zip_by_documents
 
 router = APIRouter(prefix="/export", tags=["Export"])
 

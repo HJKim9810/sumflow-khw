@@ -1,0 +1,21 @@
+{
+  "file_id": "5ddef9780f3f",
+  "filename": "5ddef9780f3f4935855a9749bf669066.pdf",
+  "pages": 21,
+  "created_at": "2025-11-04T02:15:21.649033Z",
+  "ocr": {
+    "mode": "merge_core",
+    "dpi": 300,
+    "lang": "kor+eng",
+    "text_layer_pages": null,
+    "coverage": null,
+    "psm": "6"
+  },
+  "paths": {
+    "out_dir": "data\\results\\5ddef9780f3f",
+    "merged_txt": "merged.txt",
+    "pages_dir": "pages/",
+    "summary_dir": "llm/",
+    "meta_json": "meta.json"
+  }
+}

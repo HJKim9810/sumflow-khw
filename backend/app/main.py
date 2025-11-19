@@ -2,7 +2,7 @@ import os, io, uuid, zipfile, jwt
 import logging, traceback, json, time, re, unicodedata
 from typing import List, Optional
 from pathlib import Path
-
+from starlette.responses import Response
 from fastapi import FastAPI, UploadFile, File, HTTPException, Form, Request, Depends
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import StreamingResponse, JSONResponse
@@ -16,15 +16,15 @@ load_dotenv()
 import anyio
 
 # --- 내부 서비스/유틸 ---
-from services.ocr import ocr_funnel_extract, batch_ocr_zip
-from services.llm import summarize_and_categorize
-from services.db_service import insert_or_update_doc
-from utils.version import get_version
-from utils.telemetry import Telemetry, PerfRecorder
-from core.db import SessionLocal
-from core.security import decode_access_token
-from models.visitlog_model import VisitLog
-from models.user_model import AppUser
+from app.services.ocr import ocr_funnel_extract, batch_ocr_zip
+from app.services.llm import summarize_and_categorize
+from app.services.db_service import insert_or_update_doc
+from app.utils.version import get_version
+from app.utils.telemetry import Telemetry, PerfRecorder
+from app.core.db import SessionLocal
+from app.core.security import decode_access_token
+from app.models.visitlog_model import VisitLog
+from app.models.user_model import AppUser
 
 # =========================
 # 기본 설정/로그
@@ -54,10 +54,19 @@ logger.info(f"🌐 Ollama host: {OLLAMA_HOST}")
 
 app = FastAPI(title=APP_NAME)
 
+ALLOWED_ORIGINS = [
+    "http://localhost:5173",
+    "http://127.0.0.1:5173",
+]
+
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"], allow_credentials=True,
-    allow_methods=["*"], allow_headers=["*"],
+    allow_origins=ALLOWED_ORIGINS,
+    allow_credentials=True,   # Authorization 헤더/쿠키 쓰면 True 유지
+    allow_methods=["*"],      # OPTIONS 포함
+    allow_headers=["*"],      # Authorization, Content-Type 등
+    expose_headers=["*"],
+    max_age=86400,
 )
 
 # =========================
@@ -108,6 +117,29 @@ async def _visit_logger(request: Request, call_next):
             db.close()
 
     return await call_next(request)
+
+# =========================
+# (보증) 모든 응답에 CORS 헤더 부착
+#  - 프리플라이트/에러 응답 포함 보장
+# =========================
+@app.middleware("http")
+async def _ensure_cors_headers(request: Request, call_next):
+    origin = request.headers.get("origin")
+    if request.method == "OPTIONS":
+        resp = Response(status_code=200)
+    else:
+        try:
+            resp = await call_next(request)
+        except Exception:
+            resp = Response(status_code=500)
+    if origin in ALLOWED_ORIGINS:
+        req_headers = request.headers.get("access-control-request-headers")
+        resp.headers["Access-Control-Allow-Origin"] = origin
+        resp.headers["Access-Control-Allow-Credentials"] = "true"
+        resp.headers["Access-Control-Allow-Methods"] = "GET,POST,PUT,PATCH,DELETE,OPTIONS"
+        resp.headers["Access-Control-Allow-Headers"] = req_headers or "Authorization, Content-Type"
+        resp.headers["Vary"] = "Origin"
+    return resp
 
 # =========================
 # 요청 모델
@@ -458,15 +490,18 @@ def logout_alias(token_data: dict = Depends(decode_access_token)):
 # =========================
 # 기존 라우터들
 # =========================
-from services.captcha import router as captcha_router
-from services.signup import router as signup_router
-from services.login import router as login_router
-from routers.admin_router import router as admin_router
-from routers.user_check_router import router as user_check_router
-from routers.email_verify_router import router as email_verify_router
-from routers.mypage_router import router as mypage_router
-from routers import comments
-from routers.account_recovery_router import router as account_recovery_router
+from app.services.captcha import router as captcha_router
+from app.services.signup import router as signup_router
+from app.services.login import router as login_router
+from app.routers.admin_router import router as admin_router
+from app.routers.user_check_router import router as user_check_router
+from app.routers.email_verify_router import router as email_verify_router
+from app.routers.mypage_router import router as mypage_router
+from app.routers import comments
+from app.routers.upload import router as upload_router
+from app.routers.status import router as status_router
+from app.routers.export import router as export_router
+from app.routers.account_recovery_router import router as account_recovery_router
 
 app.include_router(captcha_router)
 app.include_router(signup_router)
@@ -477,3 +512,6 @@ app.include_router(email_verify_router)
 app.include_router(mypage_router)
 app.include_router(comments.router)
 app.include_router(account_recovery_router)
+app.include_router(upload_router)
+app.include_router(status_router)
+app.include_router(export_router)

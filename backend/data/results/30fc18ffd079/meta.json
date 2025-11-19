@@ -1,0 +1,21 @@
+{
+  "file_id": "30fc18ffd079",
+  "filename": "30fc18ffd07947c9a15e2abc5878da20.pdf",
+  "pages": 4,
+  "created_at": "2025-11-04T02:51:09.729595Z",
+  "ocr": {
+    "mode": "merge_core",
+    "dpi": 300,
+    "lang": "kor+eng",
+    "text_layer_pages": null,
+    "coverage": null,
+    "psm": "6"
+  },
+  "paths": {
+    "out_dir": "data\\results\\30fc18ffd079",
+    "merged_txt": "merged.txt",
+    "pages_dir": "pages/",
+    "summary_dir": "llm/",
+    "meta_json": "meta.json"
+  }
+}

@@ -5,7 +5,7 @@ from sqlalchemy import (
     Boolean,
     DateTime,
 )
-from core.db import Base  
+from app.core.db import Base  
 
 class EmailVerification(Base):
     __tablename__ = "EMAIL_VERIFICATION"

@@ -2,7 +2,7 @@ from datetime import datetime
 from sqlalchemy import Column, BigInteger, Integer, String, Text, Boolean, ForeignKey, func
 from sqlalchemy.dialects.mysql import DATETIME as MYSQL_DATETIME, LONGTEXT as MYSQL_LONGTEXT
 from sqlalchemy.orm import relationship
-from core.db import Base
+from app.core.db import Base
 
 # MySQL DATETIME(6) 대응
 def DATETIME6():

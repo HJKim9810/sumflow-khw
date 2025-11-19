@@ -1,0 +1,21 @@
+{
+  "file_id": "6ec6559b389e",
+  "filename": "6ec6559b389e4935a3c3a8a03258bb3c.pdf",
+  "pages": 21,
+  "created_at": "2025-11-04T02:33:01.471111Z",
+  "ocr": {
+    "mode": "merge_core",
+    "dpi": 300,
+    "lang": "kor+eng",
+    "text_layer_pages": null,
+    "coverage": null,
+    "psm": "6"
+  },
+  "paths": {
+    "out_dir": "data\\results\\6ec6559b389e",
+    "merged_txt": "merged.txt",
+    "pages_dir": "pages/",
+    "summary_dir": "llm/",
+    "meta_json": "meta.json"
+  }
+}

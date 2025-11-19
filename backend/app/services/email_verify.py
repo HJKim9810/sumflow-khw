@@ -5,8 +5,8 @@ from sqlalchemy.orm import Session
 from sqlalchemy import func
 from fastapi import HTTPException
 
-from models.email_verification_model import EmailVerification
-from models.user_model import AppUser
+from app.models.email_verification_model import EmailVerification
+from app.models.user_model import AppUser
 
 import smtplib
 from email.mime.text import MIMEText
